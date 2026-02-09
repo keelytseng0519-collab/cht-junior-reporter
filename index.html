@@ -8,7 +8,7 @@
   <!-- 引入備援字體 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     /* 永續主題配色 */
@@ -17,8 +17,8 @@
       --g:#c8e6c9; 
       --mut:#558b2f; 
       --bg:#f1f8e9; 
-      /* 全域字體設定：標楷體 */
-      --font-family: "Microsoft JhengHei", "標楷體", "Noto Sans TC", system-ui, sans-serif;
+      /* 全域字體設定：微軟正黑體 */
+      --font-family: "Microsoft JhengHei", "微軟正黑體", "Noto Sans TC", system-ui, sans-serif;
     }
     
     body {
@@ -38,13 +38,13 @@
       max-width: 800px; 
       margin: 20px auto; 
       padding: 24px; 
-      background: rgba(255, 255, 255, 0.85); 
+      background: rgba(255, 255, 255, 0.9); 
       border-radius: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.2);
       backdrop-filter: blur(3px); 
     }
 
-    /* === 核心：注音排版 (垂直堆疊) === */
+    /* === 核心：垂直注音排版 === */
     .z-word {
       display: inline-flex;
       align-items: center;
@@ -82,6 +82,7 @@
       text-align: center;
     }
     
+    /* 聲調定位 */
     .tone {
       position: absolute;
       font-family: system-ui, sans-serif;
@@ -100,11 +101,16 @@
       transform: translateX(-50%);
     }
 
-    /* 縮放規則 */
-    h1 .z-char { font-size: 2.4rem; color: #1b5e20; }
-    h1 .z-yin { font-size: 0.7rem; width: 0.9rem; height: 2.4rem; }
-    h1 .yin-symbol { height: 0.6rem; line-height: 0.6rem; }
-    h1 .tone-2, h1 .tone-3, h1 .tone-4 { right: -0.2rem; font-size: 0.7rem; }
+    /* 提示文字微型化 */
+    .z-small .z-char { font-size: 0.9rem; }
+    .z-small .z-yin { font-size: 0.3rem; height: 0.9rem; width: 0.45rem; }
+    .z-small .yin-symbol { height: 0.28rem; line-height: 0.28rem; }
+    .z-small .tone { font-size: 0.3rem; right: -0.05rem; }
+
+    /* 標題樣式 */
+    h1 .z-char { font-size: 2.2rem; color: #1b5e20; }
+    h1 .z-yin { font-size: 0.65rem; width: 0.85rem; height: 2.2rem; }
+    h1 .yin-symbol { height: 0.55rem; line-height: 0.55rem; }
     
     .step-badge {
       display: inline-flex;
@@ -119,7 +125,9 @@
 
     label .z-char { font-size: 16px; }
     label .z-yin { font-size: 0.35rem; width: 0.5rem; height: 16px; }
+    label .yin-symbol { height: 0.32rem; line-height: 0.32rem; }
 
+    /* 按鈕內容注音縮放 */
     .btn .z-char { font-size: 1.1rem; }
     .btn .z-yin { font-size: 0.4rem; width: 0.5rem; height: 1.1rem; }
 
@@ -150,95 +158,73 @@
     .btn.secondary { background: #fff; color: #2e7d32; border: 1px solid #2e7d32; box-shadow: 0 2px 0 #2e7d32; padding: 6px 12px; }
     .btn.secondary:disabled { opacity: 0.5; box-shadow: none; }
 
-    .file-custom {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      margin-top: 10px;
-    }
+    .file-custom { display: inline-flex; align-items: center; gap: 10px; width: 100%; margin-top: 10px; }
     #photoInput { display: none; }
-    .file-btn {
-      background: #e8f5e9;
-      color: #2e7d32;
-      border: 2px dashed #81c784;
-      padding: 10px 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      transition: background 0.2s;
-    }
+    .file-btn { background: #e8f5e9; color: #2e7d32; border: 2px dashed #81c784; padding: 10px 15px; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; transition: background 0.2s; }
     .file-btn:hover { background: #c8e6c9; }
-    .file-status {
-      font-size: 14px;
-      color: #666;
-      flex: 1;
-    }
+    .file-status { font-size: 14px; color: #666; flex: 1; }
 
-    .card { 
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid #a5d6a7; border-radius: 16px; 
-      padding: 16px; box-shadow: 0 4px 6px rgba(46, 125, 50, 0.05);
-      margin-bottom: 16px; 
-    }
+    .card { background: rgba(255, 255, 255, 0.95); border: 1px solid #a5d6a7; border-radius: 16px; padding: 16px; box-shadow: 0 4px 6px rgba(46, 125, 50, 0.05); margin-bottom: 16px; }
     .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
     .between { justify-content: space-between; }
 
-    .canvasWrap {
-      position: relative; width: 100%; border: 2px dashed #81c784; border-radius: 12px; 
-      overflow: hidden; background: #f1f8e9; display: flex; justify-content: center; align-items: center;
-      min-height: 250px; 
-    }
+    .canvasWrap { position: relative; width: 100%; border: 2px dashed #81c784; border-radius: 12px; overflow: hidden; background: #f1f8e9; display: flex; justify-content: center; align-items: center; min-height: 250px; }
     canvas { display: block; max-width: 100%; height: auto; touch-action: none; cursor: crosshair; }
     
     .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; align-items: end; }
     @media (max-width: 600px){ .two { grid-template-columns: 1fr; } }
     
     label { display: block; margin-bottom: 8px; font-weight: bold; color: #2e7d32; }
+    input[type="text"], select { width: 100%; height: 44px; padding: 0 12px; border: 1px solid #a5d6a7; border-radius: 10px; font-size: 16px; box-sizing: border-box; background: #fff; font-family: var(--font-family); color: #333; appearance: none; -webkit-appearance: none; }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%232e7d32' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; cursor: pointer; }
     
-    input[type="text"], select {
-      width: 100%; height: 44px; padding: 0 12px; border: 1px solid #a5d6a7; border-radius: 10px;
-      font-size: 16px; box-sizing: border-box; background: #fff;
-      font-family: var(--font-family); color: #333;
-      appearance: none; -webkit-appearance: none;
-    }
-    select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%232e7d32' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 12px center; cursor: pointer;
-    }
-    
-    .btn.record { 
-        background: #fff; border: 2px solid #ffca28; padding: 0; box-shadow: 0 3px 0 #ffb300;
-        border-radius: 50%; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
-        transition: all 0.1s; overflow: hidden;
-    }
+    .btn.record { background: #fff; border: 2px solid #ffca28; padding: 0; box-shadow: 0 3px 0 #ffb300; border-radius: 50%; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; transition: all 0.1s; overflow: hidden; }
     .btn.record svg { width: 32px; height: 32px; }
     .btn.recording { animation: pulse 1s infinite; background: #fffde7; border-color: #ef5350; box-shadow: 0 3px 0 #d32f2f; }
-    @keyframes pulse { 0% {transform: scale(1.1);} 50% {transform: scale(1);} 100% {transform: scale(1.1);} }
     
     .input-group { display: flex; gap: 8px; margin-top: 6px; align-items: center; }
     .input-group input { flex: 1; }
 
-    .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-    .checkbox-group { flex-direction: row; flex-wrap: wrap; }
-
-    .item-label {
-      display: flex; align-items: center; gap: 8px; cursor: pointer;
-      padding: 10px; border-radius: 12px; border: none; 
-      transition: all 0.2s;
+    /* === 選項排版與佈局修正 === */
+    .radio-group, .checkbox-group { display: flex; gap: 10px; margin-top: 8px; }
+    .radio-group { flex-direction: column; }
+    /* 修正影響層面：橫向排列並允許換行，增加垂直間距防止重疊 */
+    .checkbox-group { 
+      flex-direction: row; 
+      flex-wrap: wrap; 
+      align-items: stretch; 
+      gap: 12px 10px; /* 垂直間距 12px，水平間距 10px */
     }
-    .item-label input { width: auto; margin: 0; transform: scale(1.2); }
-    .item-desc { font-size: 0.75rem; color: #333; margin-left: 6px; font-weight: normal; display: inline-flex; align-items: center; }
+
+    .item-label { 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+      cursor: pointer; 
+      padding: 10px 14px; 
+      border-radius: 12px; 
+      border: none; 
+      transition: all 0.2s; 
+      white-space: nowrap; 
+      flex: 0 1 auto; /* 允許縮小但維持基底 */
+    }
+    .item-label input { width: auto; margin: 0; transform: scale(1.2); flex-shrink: 0; }
+    
+    /* 輔助說明內的注音樣式 */
+    .item-desc { font-size: 0.75rem; color: #333; margin-left: 6px; font-weight: normal; display: inline-flex; align-items: center; flex-wrap: wrap; }
+    .item-desc .z-word { margin: 0 0.05rem; }
     .item-desc .z-char { font-size: 0.85rem; color: #555; }
-    .item-desc .z-yin { font-size: 0.35rem; height: 0.85rem; }
+    .item-desc .z-yin { font-size: 0.3rem; height: 0.85rem; width: 0.4rem; }
+    .item-desc .yin-symbol { height: 0.25rem; line-height: 0.25rem; }
 
     .item-label svg { width: 22px; height: 22px; flex-shrink: 0; }
 
+    /* 風險等級色彩 */
     .lvl-low { background: #e8f5e9; color: #2e7d32; }
     .lvl-med { background: #fff8e1; color: #ff8f00; }
     .lvl-high { background: #ffebee; color: #c62828; }
 
+    /* 影響層面色彩 */
     .scope-safety { background: #e3f2fd; color: #1565c0; } 
     .scope-env { background: #f1f8e9; color: #2e7d32; }    
     .scope-health { background: #fce4ec; color: #ad1457; } 
@@ -249,40 +235,22 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .report-container { overflow-x: auto; padding: 10px; background: #334d34; border-radius: 8px; }
-    
-    #report {
-      width: 794px; height: 1123px; padding: 40px;
-      background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url('https://lh3.googleusercontent.com/d/1PMMbc6X59Ifwywx8fg2beaCXEBB_iBtZ');
-      background-size: cover; background-position: center;
-      margin: 0 auto; font-family: var(--font-family); 
-      box-sizing: border-box; position: relative; display: flex; flex-direction: column;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    
+    #report { width: 794px; height: 1123px; padding: 40px; background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url('https://lh3.googleusercontent.com/d/1PMMbc6X59Ifwywx8fg2beaCXEBB_iBtZ'); background-size: cover; background-position: center; margin: 0 auto; font-family: var(--font-family); box-sizing: border-box; position: relative; display: flex; flex-direction: column; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
     .news-header { border-bottom: 2px solid #2e7d32; margin-bottom: 10px; padding-bottom: 5px; position: relative; }
     .news-title-box { text-align: center; margin-bottom: 10px; }
     .news-info { display: flex; justify-content: space-between; align-items: flex-end; color: #555; font-size: 16px; margin-bottom: 5px; }
     .news-content-wrapper { flex: 1; display: flex; flex-direction: column; gap: 15px; overflow: hidden; }
-
-    .news-photo-box {
-      width: 100%; height: 250px; flex: 0 0 250px; 
-      background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden;
-    }
+    .news-photo-box { width: 100%; height: 250px; flex: 0 0 250px; background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .news-photo-box img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
-
     .news-content-block { line-height: 2.4; font-size: 15px; text-align: justify; flex-grow: 1; }
     .news-content-block p { margin: 10px 0; text-indent: 2em; }
     .news-footer { margin-top: auto; text-align: center; color: #555; font-size: 14px; border-top: 1px solid #aaa; padding-top: 10px; font-weight: bold; }
-
-    .hidden { display: none !important; }
-    .text-center { text-align: center; }
   </style>
 </head>
 
 <body>
   <div class="wrap">
     
-    <!-- 頁面 1：編輯區 -->
     <div id="page-edit" class="page-section active">
       <div style="text-align:center; margin-bottom:20px;">
         <img src="https://lh3.googleusercontent.com/d/1ybyLQCc_DIAUeS23tz-sORNL43Vv2Kan" style="height: 80px; display: block; margin: 0 auto 10px auto;" alt="Logo">
@@ -291,7 +259,7 @@
         </h1>
       </div>
 
-      <!-- 步驟 1 (自定義注音按鈕) -->
+      <!-- 步驟 1 (含注音) -->
       <div class="card">
         <div class="row">
           <div class="step-badge">
@@ -301,14 +269,12 @@
           <span class="z-word"><span class="z-char">上</span><span class="z-yin"><span class="yin-symbol">ㄕ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">傳</span><span class="z-yin"><span class="yin-symbol">ㄔ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">照</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="yin-symbol">ㄠ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">片</span><span class="z-yin"><span class="yin-symbol">ㄆ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span>
         </div>
         <div class="file-custom">
-          <label for="photoInput" class="file-btn" id="fileBtnLabel">
-            <!-- 選擇檔案 注音版 -->
-            <span class="z-word"><span class="z-char">選</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄩ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">擇</span><span class="z-yin"><span class="yin-symbol">ㄗ</span><span class="yin-symbol">ㄜ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">檔</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">案</span><span class="z-yin"><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span>
+          <label for="photoInput" class="file-btn">
+            <span class="z-word"><span class="z-char">選</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄩ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">擇</span><span class="z-yin"><span class="yin-symbol">ㄗ</span><span class="yin-symbol">ㄜ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">照</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="yin-symbol">ㄠ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">片</span><span class="z-yin"><span class="yin-symbol">ㄆ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span>
           </label>
           <input id="photoInput" type="file" accept="image/*" />
-          <div id="fileStatus" class="file-status">
-             <!-- 未選擇檔案 注音版 -->
-             <span class="z-word"><span class="z-char">未</span><span class="z-yin"><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄟ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">選</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄩ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">擇</span><span class="z-yin"><span class="yin-symbol">ㄗ</span><span class="yin-symbol">ㄜ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">檔</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">案</span><span class="z-yin"><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span>
+          <div id="fileStatus" class="file-status z-small">
+             <span class="z-word"><span class="z-char">未</span><span class="z-yin"><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄟ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">選</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄩ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">擇</span><span class="z-yin"><span class="yin-symbol">ㄗ</span><span class="yin-symbol">ㄜ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">照</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="yin-symbol">ㄠ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">片</span><span class="z-yin"><span class="yin-symbol">ㄆ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span>
           </div>
         </div>
       </div>
@@ -333,15 +299,14 @@
           </div>
         </div>
         <div class="canvasWrap" style="margin-top:10px;">
-          <div id="placeholderText">
-            <!-- 請先選擇照片 注音版 -->
+          <div id="placeholderText" class="z-small">
             <span class="z-word"><span class="z-char">請</span><span class="z-yin"><span class="yin-symbol">ㄑ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">先</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span></span></span><span class="z-word"><span class="z-char">選</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄩ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">擇</span><span class="z-yin"><span class="yin-symbol">ㄗ</span><span class="yin-symbol">ㄜ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">照</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="yin-symbol">ㄠ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">片</span><span class="z-yin"><span class="yin-symbol">ㄆ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span>
           </div>
           <canvas id="canvas" class="hidden"></canvas>
         </div>
       </div>
 
-      <!-- 步驟 3 -->
+      <!-- 步驟 3 (含注音標籤) -->
       <div class="card">
         <div class="row">
           <div class="step-badge">
@@ -367,7 +332,6 @@
           </div>
         </div>
 
-        <!-- 發現地點 -->
         <div style="margin-top:16px;">
           <label>
             <span class="z-word"><span class="z-char">發</span><span class="z-yin"><span class="yin-symbol">ㄈ</span><span class="yin-symbol">ㄚ</span></span></span><span class="z-word"><span class="z-char">現</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">地</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄧ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">點</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-3">ˇ</span></span></span>
@@ -380,7 +344,6 @@
           </div>
         </div>
 
-        <!-- 現況描述 -->
         <div style="margin-top:16px;">
           <label>
             <span class="z-word"><span class="z-char">現</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">況</span><span class="z-yin"><span class="yin-symbol">ㄎ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">描</span><span class="z-yin"><span class="yin-symbol">ㄇ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄠ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">述</span><span class="z-yin"><span class="yin-symbol">ㄕ</span><span class="yin-symbol">ㄨ</span><span class="tone tone-4">ˋ</span></span></span>
@@ -393,7 +356,6 @@
           </div>
         </div>
 
-        <!-- 潛在風險 -->
         <div style="margin-top:16px;">
           <label>
             <span class="z-word"><span class="z-char">潛</span><span class="z-yin"><span class="yin-symbol">ㄑ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">在</span><span class="z-yin"><span class="yin-symbol">ㄗ</span><span class="yin-symbol">ㄞ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">風</span><span class="z-yin"><span class="yin-symbol">ㄈ</span><span class="yin-symbol">ㄥ</span></span></span><span class="z-word"><span class="z-char">險</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-3">ˇ</span></span></span>
@@ -406,7 +368,6 @@
           </div>
         </div>
 
-        <!-- 改善對策 -->
         <div style="margin-top:16px;">
           <label>
             <span class="z-word"><span class="z-char">改</span><span class="z-yin"><span class="yin-symbol">ㄍ</span><span class="yin-symbol">ㄞ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">善</span><span class="z-yin"><span class="yin-symbol">ㄕ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">對</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄟ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">策</span><span class="z-yin"><span class="yin-symbol">ㄘ</span><span class="yin-symbol">ㄜ</span><span class="tone tone-4">ˋ</span></span></span>
@@ -419,7 +380,7 @@
           </div>
         </div>
 
-        <!-- 風險等級 -->
+        <!-- 風險等級 (補全注音) -->
         <div style="margin-top:16px;">
           <label>
             <span class="z-word"><span class="z-char">風</span><span class="z-yin"><span class="yin-symbol">ㄈ</span><span class="yin-symbol">ㄥ</span></span></span><span class="z-word"><span class="z-char">險</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">等</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">級</span><span class="z-yin"><span class="yin-symbol">ㄐ</span><span class="yin-symbol">ㄧ</span><span class="tone tone-2">ˊ</span></span></span>
@@ -431,8 +392,7 @@
               <span>
                 <span class="z-word"><span class="z-char">輕</span><span class="z-yin"><span class="yin-symbol">ㄑ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span></span></span><span class="z-word"><span class="z-char">微</span><span class="z-yin"><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄟ</span><span class="tone tone-2">ˊ</span></span></span>
                 <span class="item-desc">
-                  (<span class="z-word"><span class="z-char">輕</span><span class="z-yin"><span class="yin-symbol">ㄑ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span></span></span><span class="z-word"><span class="z-char">度</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄨ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">影</span><span class="z-yin"><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">響</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-3">ˇ</span></span></span>/
-                  <span class="z-word"><span class="z-char">小</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄠ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">範</span><span class="z-yin"><span class="yin-symbol">ㄈ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">圍</span><span class="z-yin"><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄟ</span><span class="tone tone-2">ˊ</span></span></span>)
+                  (<span class="z-word"><span class="z-char">輕</span><span class="z-yin"><span class="yin-symbol">ㄑ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span></span></span><span class="z-word"><span class="z-char">度</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄨ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">影</span><span class="z-yin"><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">響</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-3">ˇ</span></span></span>/<span class="z-word"><span class="z-char">小</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄠ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">範</span><span class="z-yin"><span class="yin-symbol">ㄈ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">圍</span><span class="z-yin"><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄟ</span><span class="tone tone-2">ˊ</span></span></span>)
                 </span>
               </span>
             </label>
@@ -442,64 +402,46 @@
               <span>
                 <span class="z-word"><span class="z-char">中</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄥ</span></span></span><span class="z-word"><span class="z-char">度</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄨ</span><span class="tone tone-4">ˋ</span></span></span>
                 <span class="item-desc">
-                  (<span class="z-word"><span class="z-char">中</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄥ</span></span></span><span class="z-word"><span class="z-char">度</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄨ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">影</span><span class="z-yin"><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">響</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-3">ˇ</span></span></span>/
-                  <span class="z-word"><span class="z-char">需</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄩ</span></span></span><span class="z-word"><span class="z-char">注</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="ㄨ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">意</span><span class="z-yin"><span class="yin-symbol">ㄧ</span><span class="tone tone-4">ˋ</span></span></span>)
+                  (<span class="z-word"><span class="z-char">中</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄥ</span></span></span><span class="z-word"><span class="z-char">度</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄨ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">影</span><span class="z-yin"><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">響</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-3">ˇ</span></span></span>/<span class="z-word"><span class="z-char">需</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄩ</span></span></span><span class="z-word"><span class="z-char">注</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="ㄨ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">意</span><span class="z-yin"><span class="yin-symbol">ㄧ</span><span class="tone tone-4">ˋ</span></span></span>)
                 </span>
               </span>
             </label>
             <label class="item-label lvl-high">
               <input type="radio" name="severity" value="🔴 嚴重">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#c62828" stroke-width="2.5"><path d="M12 9v4M12 17h.01" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="10" fill="#ffebee"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c62828" stroke-width="2.5"><circle cx="12" cy="12" r="10" fill="#ffebee"/><path d="M12 8v4M12 16h.01" stroke="#c62828" stroke-width="3" stroke-linecap="round"/></svg>
               <span>
                 <span class="z-word"><span class="z-char">嚴</span><span class="z-yin"><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">重</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-4">ˋ</span></span></span>
                 <span class="item-desc">
-                  (<span class="z-word"><span class="z-char">重</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">大</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄚ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">影</span><span class="z-yin"><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">響</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-3">ˇ</span></span></span>/
-                  <span class="z-word"><span class="z-char">需</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄩ</span></span></span><span class="z-word"><span class="z-char">立</span><span class="z-yin"><span class="yin-symbol">ㄌ</span><span class="ㄧ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">即</span><span class="z-yin"><span class="yin-symbol">ㄐ</span><span class="ㄧ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">處</span><span class="z-yin"><span class="yin-symbol">ㄔ</span><span class="ㄨ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">理</span><span class="z-yin"><span class="yin-symbol">ㄌ</span><span class="ㄧ</span><span class="tone tone-3">ˇ</span></span></span>)
+                  (<span class="z-word"><span class="z-char">重</span><span class="z-yin"><span class="yin-symbol">ㄓ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄥ</span></span></span><span class="z-word"><span class="z-char">大</span><span class="z-yin"><span class="yin-symbol">ㄉ</span><span class="yin-symbol">ㄚ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">影</span><span class="z-yin"><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">響</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-3">ˇ</span></span></span>/<span class="z-word"><span class="z-char">需</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄩ</span></span></span><span class="z-word"><span class="z-char">立</span><span class="z-yin"><span class="yin-symbol">ㄌ</span><span class="ㄧ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">即</span><span class="z-yin"><span class="yin-symbol">ㄐ</span><span class="ㄧ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">處</span><span class="z-yin"><span class="yin-symbol">ㄔ</span><span class="ㄨ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">理</span><span class="z-yin"><span class="yin-symbol">ㄌ</span><span class="ㄧ</span><span class="tone tone-3">ˇ</span></span></span>)
                 </span>
               </span>
             </label>
           </div>
         </div>
 
+        <!-- 影響層面 (優化橫向佈局) -->
         <div style="margin-top:16px;">
           <label>
             <span class="z-word"><span class="z-char">影</span><span class="z-yin"><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">響</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄤ</span><span class="tone tone-3">ˇ</span></span></span><span class="z-word"><span class="z-char">層</span><span class="z-yin"><span class="yin-symbol">ㄘ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">面</span><span class="z-yin"><span class="yin-symbol">ㄇ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-4">ˋ</span></span></span>
           </label>
           <div class="checkbox-group">
-            <label class="item-label scope-safety">
-              <input type="checkbox" name="scope" value="安全影響"> 
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span class="z-word"><span class="z-char">安</span><span class="z-yin"><span class="yin-symbol">ㄢ</span></span></span><span class="z-word"><span class="z-char">全</span><span class="z-yin"><span class="yin-symbol">ㄑ</span><span class="yin-symbol">ㄩ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-2">ˊ</span></span></span>
-            </label>
-            <label class="item-label scope-env">
-              <input type="checkbox" name="scope" value="環境影響"> 
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20a7 7 0 0 1-7-7c0-2.5 2-6 7-11 5 5 7 8.5 7 11a7 7 0 0 1-7 20z"/></svg>
-              <span class="z-word"><span class="z-char">環</span><span class="z-yin"><span class="yin-symbol">ㄏ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">境</span><span class="z-yin"><span class="yin-symbol">ㄐ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-4">ˋ</span></span></span>
-            </label>
-            <label class="item-label scope-health">
-              <input type="checkbox" name="scope" value="健康影響"> 
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              <span class="z-word"><span class="z-char">健</span><span class="z-yin"><span class="yin-symbol">ㄐ</span><span class="ㄧ</span><span class="ㄧ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">康</span><span class="z-yin"><span class="yin-symbol">ㄎ</span><span class="ㄧ</span><span class="ㄤ</span></span></span>
-            </label>
-            <label class="item-label scope-inter">
-              <input type="checkbox" name="scope" value="人際影響"> 
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span class="z-word"><span class="z-char">人</span><span class="z-yin"><span class="yin-symbol">ㄖ</span><span class="yin-symbol">ㄣ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">際</span><span class="z-yin"><span class="ㄐ</span><span class="ㄧ</span><span class="tone tone-4">ˋ</span></span></span>
-            </label>
+            <label class="item-label scope-item scope-safety"><input type="checkbox" name="scope" value="安全影響"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="z-word"><span class="z-char">安</span><span class="z-yin"><span class="yin-symbol">ㄢ</span></span></span><span class="z-word"><span class="z-char">全</span><span class="z-yin"><span class="yin-symbol">ㄑ</span><span class="yin-symbol">ㄩ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-2">ˊ</span></span></span></label>
+            <label class="item-label scope-item scope-env"><input type="checkbox" name="scope" value="環境影響"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20a7 7 0 0 1-7-7c0-2.5 2-6 7-11 5 5 7 8.5 7 11a7 7 0 0 1-7 20z"/></svg><span class="z-word"><span class="z-char">環</span><span class="z-yin"><span class="yin-symbol">ㄏ</span><span class="yin-symbol">ㄨ</span><span class="yin-symbol">ㄢ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">境</span><span class="z-yin"><span class="yin-symbol">ㄐ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄥ</span><span class="tone tone-4">ˋ</span></span></span></label>
+            <label class="item-label scope-item scope-health"><input type="checkbox" name="scope" value="健康影響"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="z-word"><span class="z-char">健</span><span class="z-yin"><span class="ㄧ</span><span class="ㄧ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">康</span><span class="z-yin"><span class="ㄎ</span><span class="ㄧ</span><span class="ㄤ</span></span></span></label>
+            <label class="item-label scope-item scope-inter"><input type="checkbox" name="scope" value="人際影響"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="z-word"><span class="z-char">人</span><span class="z-yin"><span class="yin-symbol">ㄖ</span><span class="yin-symbol">ㄣ</span><span class="tone tone-2">ˊ</span></span></span><span class="z-word"><span class="z-char">際</span><span class="z-yin"><span class="ㄐ</span><span class="ㄧ</span><span class="tone tone-4">ˋ</span></span></span></label>
           </div>
         </div>
       </div>
 
       <div style="margin-top:30px; text-align:center;">
         <button id="btnGoPreview" type="button" class="btn large" disabled>
-          <!-- 下一步 注音版 -->
           <span class="z-word"><span class="z-char">下</span><span class="z-yin"><span class="yin-symbol">ㄒ</span><span class="yin-symbol">ㄧ</span><span class="yin-symbol">ㄚ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">一</span><span class="z-yin"><span class="yin-symbol">ㄧ</span></span></span><span class="z-word"><span class="z-char">步</span><span class="z-yin"><span class="yin-symbol">ㄅ</span><span class="yin-symbol">ㄨ</span><span class="tone tone-4">ˋ</span></span></span> ➡
         </button>
         <div id="errorMsg" style="color:#d32f2f; margin-top:10px; font-weight:bold;"></div>
       </div>
     </div>
 
-    <!-- 頁面 2：預覽區 -->
+    <!-- 頁面 2 -->
     <div id="page-preview" class="page-section">
       <div class="row between" style="margin-bottom:15px;">
         <button id="btnBackEdit" type="button" class="btn back">⬅ 修改內容</button>
@@ -515,9 +457,7 @@
           </div>
           <div class="news-title-box"><div id="rTitleContainer" style="display:flex; justify-content:center; align-items:center; flex-wrap:wrap;"></div></div>
           <div class="news-info">
-            <div id="rMetaInfo">
-              <!-- 填入記者與組別 -->
-            </div>
+            <div id="rMetaInfo"></div>
             <div>
               <span class="z-word"><span class="z-char">日</span><span class="z-yin"><span class="yin-symbol">ㄖ</span><span class="tone tone-4">ˋ</span></span></span><span class="z-word"><span class="z-char">期</span><span class="z-yin"><span class="yin-symbol">ㄑ</span><span class="ㄧ</span><span class="tone tone-2">ˊ</span></span></span>：<span id="rTime">---</span>
             </div>
@@ -540,10 +480,11 @@
   <script>
     const apiKey = ""; 
 
-    function getZWord(char, yin, tone) {
+    function getZWord(char, yin, tone, isSmall = false) {
       let toneHtml = tone === "2" ? '<span class="tone tone-2">ˊ</span>' : tone === "3" ? '<span class="tone tone-3">ˇ</span>' : tone === "4" ? '<span class="tone tone-4">ˋ</span>' : tone === "0" ? '<span class="tone tone-0">˙</span>' : "";
       let vy = yin ? yin.split('').filter(s => /[\u3100-\u312F]/.test(s)).map(s => `<span class="yin-symbol">${s}</span>`).join('') : "";
-      return `<span class="z-word"><span class="z-char">${char}</span><span class="z-yin">${vy}${toneHtml}</span></span>`;
+      let cls = isSmall ? "z-word z-small" : "z-word";
+      return `<span class="${cls}"><span class="z-char">${char}</span><span class="z-yin">${vy}${toneHtml}</span></span>`;
     }
 
     const canvas = document.getElementById("canvas"), ctx = canvas.getContext("2d"), photoInput = document.getElementById("photoInput"), placeholderText = document.getElementById("placeholderText");
@@ -553,10 +494,7 @@
     photoInput.onchange = e => {
       const file = e.target.files[0]; 
       if(!file) {
-        fileStatus.innerHTML = [
-          getZWord("未","ㄨㄟ","4"), getZWord("選","ㄒㄩㄢ","3"), getZWord("擇","ㄗㄜ","2"),
-          getZWord("檔","ㄉㄤ","3"), getZWord("案","ㄢ","4")
-        ].join('');
+        fileStatus.innerHTML = [getZWord("未","ㄨㄟ","4", true), getZWord("選","ㄒㄩㄢ","3", true), getZWord("擇","ㄗㄜ","2", true), getZWord("照","ㄓㄠ","4", true), getZWord("片","ㄆㄧㄢ","4", true)].join('');
         return;
       }
       fileStatus.textContent = file.name;
@@ -583,14 +521,7 @@
     document.getElementById('btnClear').onclick = () => { circles = []; redraw(); checkReady(); };
 
     async function callGeminiAI(imgBase64, p, i, s, sev, scope, reporter, loc) {
-      const prompt = `角色：你是國小的「永續生活小記者」指導老師。任務：撰寫一篇約 100-150 字的新聞快報。
-      【內容要求】
-      - 嚴格遵守地點：若使用者說『花圃』，絕對不能寫成『社區』或其他範圍。
-      - 第一段開頭必須是：「本報小記者${reporter}，發現...」。
-      - 呼籲與建議對象必須是『同學』，提醒同學經過時的注意事項。
-      - **禁忌：絕對不要出現『指導老師提醒』、『相關部門』、『行政處』或任何編造的正式部門名稱。**
-      - 請以 JSON 格式回傳，包含 title 與 content 陣列，每個元素為 {"c":"字","y":"注音","t":"聲調"}。
-      - 注音限台灣符號。聲調：2聲ˊ, 3聲ˇ, 4聲ˋ, 輕聲0。`;
+      const prompt = `角色：你是國小的「永續生活小記者」指導老師。任務：撰寫一篇約 100-150 字的新聞快報。要求：1.開頭「本報小記者${reporter}，發現...」。2.地點絕對遵守使用者輸入的『${loc}』。3.建議對象是『同學』。4.禁忌：絕對不要出現『指導老師提醒』。以 JSON 格式回傳，包含 title 與 content 陣列。`;
       const base64Data = imgBase64.split(',')[1];
       const fetchWithRetry = async (url, options, retries = 5, delay = 1000) => {
         for (let j = 0; j < retries; j++) {
@@ -602,18 +533,21 @@
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: "image/png", data: base64Data } }] }], generationConfig: { responseMimeType: "application/json" } })
       });
-      if (!res) return null; const data = await res.json(); try { return JSON.parse(data.candidates[0].content.parts[0].text); } catch(e) { return null; }
+      if (!res) return null; const data = await res.json(); 
+      try { 
+        let rawText = data.candidates[0].content.parts[0].text;
+        rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+        return JSON.parse(rawText); 
+      } catch(e) { return null; }
     }
 
     btnGoPreview.onclick = async () => {
-      const loadingHtml = [
-        getZWord("正","ㄓㄥ","4"), getZWord("在","ㄗㄞ","4"), getZWord("生","ㄕㄥ","1"), 
-        getZWord("成","ㄔㄥ","2"), getZWord("快","ㄎㄨㄞ","4"), getZWord("報","ㄅㄠ","4"), "..."
-      ].join('');
+      const loadingHtml = [getZWord("正","ㄓㄥ","4"), getZWord("在","ㄗㄞ","4"), getZWord("生","ㄕㄥ","1"), getZWord("成","ㄔㄥ","2"), getZWord("快","ㄎㄨㄞ","4"), getZWord("報","ㄅㄠ","4"), "..."].join('');
       btnGoPreview.disabled = true; btnGoPreview.innerHTML = loadingHtml;
 
       const reporterVal = document.getElementById('reporterName').value || "小記者", teamVal = document.getElementById('team').value || "未選組";
       const p = document.getElementById('problemInput').value || "問題", loc = document.getElementById('locationInput').value || "校園";
+      const impact = document.getElementById('impactInput').value || "風險", sugg = document.getElementById('suggestionInput').value || "改善建議";
       
       const reporterLabel = getZWord("記","ㄐㄧ","4") + getZWord("者","ㄓㄜ","3");
       const reportLabel = getZWord("報","ㄅㄠ","4") + getZWord("導","ㄉㄠ","3");
@@ -622,14 +556,17 @@
       const now = new Date(); document.getElementById('rTime').textContent = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
       const img = canvas.toDataURL('image/png'); document.getElementById('rImg').src = img;
 
-      const aiData = await callGeminiAI(img, p, document.getElementById('impactInput').value, document.getElementById('suggestionInput').value, document.querySelector('input[name="severity"]:checked').value, Array.from(document.querySelectorAll('input[name="scope"]:checked')).map(cb => cb.value).join("、"), reporterVal, loc);
+      const aiData = await callGeminiAI(img, p, impact, sugg, document.querySelector('input[name="severity"]:checked').value, Array.from(document.querySelectorAll('input[name="scope"]:checked')).map(cb => cb.value).join("、"), reporterVal, loc);
       
-      if (aiData && aiData.content) {
+      if (aiData && Array.isArray(aiData.content) && Array.isArray(aiData.title)) {
         document.getElementById('newsContent').innerHTML = aiData.content.map(item => item.y ? getZWord(item.c, item.y, item.t) : item.c).join('');
         document.getElementById('rTitleContainer').innerHTML = aiData.title.map(item => item.y ? getZWord(item.c, item.y, item.t) : item.c).join('');
       } else {
         document.getElementById('rTitleContainer').innerHTML = `<span class="input-highlight">${loc}發現${p}！</span>`;
-        document.getElementById('newsContent').innerHTML = `<p>本報小記者報導，於${loc}發現${p}問題。</p>`;
+        document.getElementById('newsContent').innerHTML = `
+          <p>本報小記者報導，於<span class="input-highlight">${loc}</span>發現<span class="input-highlight">${p}</span>問題，這可能會造成<span class="input-highlight">${impact}</span>。</p>
+          <p>建議校園應採取<span class="input-highlight">${sugg}</span>來進行改善。也在此呼籲各位同學，在問題尚未完全修復前，經過時務必多加留意，共同維護校園的安全環境。</p>
+        `;
       }
       
       document.getElementById('page-edit').classList.remove('active'); document.getElementById('page-preview').classList.add('active');
@@ -639,7 +576,7 @@
     };
 
     btnBackEdit.onclick = () => { document.getElementById('page-preview').classList.remove('active'); document.getElementById('page-edit').classList.add('active'); window.scrollTo(0,0); };
-    btnDownload.onclick = async () => { const c = await html2canvas(document.getElementById('report'), { scale: 2, useCORS: true }); const a = document.createElement("a"); a.href = c.toDataURL(); a.download = `快報_${Date.now()}.png`; a.click(); };
+    btnDownload.onclick = async () => { const reportDiv = document.getElementById('report'); const c = await html2canvas(reportDiv, { scale: 2, useCORS: true }); const a = document.createElement("a"); a.href = c.toDataURL(); a.download = `安全快報_${Date.now()}.png`; a.click(); };
 
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
