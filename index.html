@@ -726,16 +726,29 @@ function setZLoadingText(text) {
   loadingElement.innerHTML = `<div class="loading-container">${htmlContent}</div>`;
 }
 
-    async function callGemini(promptText) {
-       try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }], generationConfig: { responseMimeType: "application/json" } })
-        });
-        const data = await res.json();
-        return JSON.parse(data.candidates[0].content.parts[0].text);
-      } catch (e) { return null; }
-    }
+async function callGemini(promptText) {
+  try {
+    // 這裡改為你的 GAS 網址
+    const gasUrl = "https://script.google.com/macros/s/AKfycbyI6JOlcS9bDTo1jtUaF8iHVCJ0thD-CtLf6phzslu-57GVYWFHsGestv2O9pMs1-tu/exec";
+    
+    // 使用 URLSearchParams 或直接發送 POST，視你的 GAS doGet/doPost 設定而定
+    // 這裡假設你的 GAS 接受 POST 請求
+    const res = await fetch(gasUrl, {
+      method: 'POST',
+      mode: 'no-cors', // 如果遇到 CORS 問題可以試試，但建議 GAS 端要處理好回傳
+      body: JSON.stringify({ prompt: promptText })
+    });
+
+    // 注意：因為 GAS 轉址(302)的關係，純 fetch 有時會抓不到回傳
+    // 如果你的 GAS 是寫回傳 JSON，建議使用以下更穩定的連線方式
+    const response = await fetch(gasUrl + "?prompt=" + encodeURIComponent(promptText));
+    const data = await response.json();
+    return data;
+  } catch (e) { 
+    console.error("GAS 連線出錯:", e);
+    return null; 
+  }
+}
 
     async function generateAIContent(loc, prob, impact, sug, reporter, scope) {
       const prompt = `您是一位專業的國小記者導師。撰寫一篇具備新聞感的專業快報。要求：
