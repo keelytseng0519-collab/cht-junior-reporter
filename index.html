@@ -460,13 +460,17 @@ h1 .z-yin {
 
     #report {
 
-      width: 794px; min-height: 1123px; padding: 20px 60px 35px 60px; 
-
-      margin: 0 auto; box-sizing: border-box;
-
-      position: relative; display: flex; flex-direction: column;
-
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      /* --- 關鍵修改：從固定 794px 改為適應螢幕 --- */
+  width: 95%;            /* 在手機上佔螢幕 95% 寬度，留一點邊 */
+  max-width: 794px;      /* 在電腦上最大維持 794px，保持 A4 比例感覺 */
+  min-height: 1123px; 
+  padding: 20px 20px 35px 20px; /* 縮小左右內邊距，把空間留給文字 */
+margin: 0 auto; 
+  box-sizing: border-box;
+  position: relative; 
+  display: flex; 
+  flex-direction: column;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
 
       background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://lh3.googleusercontent.com/d/1SOoxXby6ucek-k1CK6IgDVrFxg-98Vdi');
 
@@ -994,7 +998,7 @@ h1 .z-yin {
 
             <option value="" disabled selected></option>
 
-            <option value="A組">A組</option><option value="B組">B組</option><option value="C組">C組</option>
+            <option value="A組">A組</option><option value="B組">B組</option><option value="C組">C組</option><option value="D組">D組</option><option value="E組">E組</option><option value="F組">F組</option><option value="G組">G組</option>
 
           </select>
 
