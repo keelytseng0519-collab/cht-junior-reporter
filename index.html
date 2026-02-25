@@ -1412,28 +1412,42 @@ function getZWord(char, yin, tone) {
     }
 
 // --- 核心修正：增加自動清理 AI 標籤的邏輯 ---
-    async function callGPTViaGAS(promptText) {
-      try {
-        const res = await fetch(gasUrl, {
-          method: 'POST',
-          body: JSON.stringify({ "promptText": promptText }) 
-        });
-        
-        let data = await res.json();
-        
-        // 關鍵：如果 GAS 回傳的是帶有 Markdown 標籤的字串，在此進行清理
-        if (typeof data === 'string') {
-          data = data.replace(/```json/g, '').replace(/```/g, '').trim();
-          data = JSON.parse(data);
-        }
-        
-        if (data.error) throw new Error(data.error);
-        return data; 
-      } catch (e) {
-        console.error("呼叫 GAS 失敗:", e);
-        return null;
-      }
+async function callGPTViaGAS(promptText) {
+  try {
+    // 設定一個超時機制，讓使用者知道還在跑
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 20000); // 20秒超時
+
+    const res = await fetch(gasUrl, {
+      method: 'POST',
+      // 關鍵修正：改用 text/plain 繞過手機瀏覽器的 OPTIONS 預檢請求
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8' 
+      },
+      body: JSON.stringify({ "promptText": promptText }),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+    
+    // GAS 回傳會經過幾次重定向，這裡取得純文字後再轉 JSON
+    const resultText = await res.text();
+    let data = JSON.parse(resultText.replace(/```json/g, '').replace(/```/g, '').trim());
+
+    if (data.error) throw new Error(data.error);
+    return data; 
+
+  } catch (e) {
+    console.error("手機連線出錯:", e);
+    // 如果是連線超時，給一個比較溫柔的提示
+    if (e.name === 'AbortError') {
+      alert("網路連線較慢，請再試一次或換一個網路環境（例如從 WiFi 切換到行動網路）。");
+    } else {
+      alert("AI 生成連線發生問題，請確認您已連上網路。");
     }
+    return null;
+  }
+}
 
     async function generateAIContent(loc, prob, impact, sug, reporter, scope) {
       const prompt = `您是一位專業的國小記者導師。撰寫一篇具備新聞感的專業快報。要求：
